@@ -1,0 +1,27 @@
+{
+  "name": "alphabet-filter",
+  "version": "1.0.0",
+  "repository": "https://github.com/ericferreira1992/alphabet-filter",
+  "keywords": [
+    "angular",
+    "search",
+    "filter",
+    "alphabet",
+    "az"
+  ],
+  "author": "ericferreira <ericferreira1992@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "peerDependencies": {
+    "@angular/core": ">=6.0.0",
+    "@angular/common": ">=6.0.0",
+    "@angular/forms": "^6.0.3"
+  },
+  "ngPackage": {
+    "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
+    "lib": {
+      "entryFile": "src/public-api.ts"
+    },
+    "dest": "../dist"
+  }
+}

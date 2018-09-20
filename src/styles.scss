@@ -1,0 +1,28 @@
+html, body {
+  padding: 0;
+  margin: 0;
+  position: relative;
+  height: 100%;
+  box-sizing: border-box;
+  color: #555;
+
+  .search-list {
+    .search-list-item {
+      padding: 10px 0;
+
+      > img {
+        display: inline-block;
+        vertical-align: middle;
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+      }
+
+      > span {
+        padding-left: 15px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
+  }
+}

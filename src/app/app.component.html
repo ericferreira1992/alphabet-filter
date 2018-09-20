@@ -1,0 +1,19 @@
+<div class="general">
+  <alphabet-filter 
+    propAlphaOrder="name"
+    propsSearch="name"
+    placeholder="digite o nome do contato"
+    listClass="search-list"
+    [data]="contacts"
+    [height]="window.innerWidth < 500 ? '100%' : '500px'"
+    (onClick)="selected($event)"
+  >
+    <ng-template let-item>
+      <div class="search-list-item">
+        <img [src]="item.image" onerror="this.src = 'http://pol.audio/media/user-avatar.png'" alt="">
+        <span>{{item.name}}</span>
+      </div>
+    </ng-template>
+  </alphabet-filter>
+</div>
+

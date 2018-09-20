@@ -1,0 +1,13 @@
+.general {
+  padding: 20px;
+  height: 100%;
+  background: #FFF;
+  box-sizing: border-box;
+  font-family: Calibri, Arial, Helvetica, sans-serif;
+}
+
+@media (max-width: 500px) {
+  .general {
+    padding: 0;
+  }
+}
