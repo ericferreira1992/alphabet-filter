@@ -23,7 +23,7 @@
               "src/assets"
             ],
             "styles": [
-              "alphabet-filter/src/alphabet-filter.component.scss",
+              "alphabet-filter/src/alphabet-filter.scss",
               "src/styles.scss"
             ],
             "scripts": []
