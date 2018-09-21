@@ -16,7 +16,7 @@ Name		        | Type      | Description
 `placeholder`   | `string`  | Placeholder of input filter. (ex .: ``` <... []=""></...>```).
 `listClass`     | `string`  | Class name for list element. (ex .: ``` <... listClass="search-list"></...>```).
 `height`        | `string`  | Height to be used throughout the component. (ex .: ``` <... height="100%"></...>```).
-`withTemplate`  | `boolean` | Used when to need of a custom using ng-template. (ex .: ``` <... [withTemplate]="true"></...>```).
+`withTemplate`  | `boolean` | Used when to need of customize using ng-template. (ex .: ``` <... [withTemplate]="true"></...>```).
 `onCancel`   		| `EventEmitter<any>` | Used to enable "close" button.(ex .: ``` <... (onCancel)="cancel()"></...>```).
 
 ## Usage
