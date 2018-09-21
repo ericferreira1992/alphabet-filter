@@ -51,8 +51,8 @@ export class AppModule { }
 ```
 
 ### Simple use
-![](simple.png)
 
+#### HTML
 ```html
 <alphabet-filter 
     propAlphaOrder="name"
@@ -63,10 +63,11 @@ export class AppModule { }
     (onClick)="selected($event)">
 </alphabet-filter>
 ```
+#### Result
+![](simple.png)
 
 ### Custom use (with ng-template)
-![](with-template.png)
-
+#### HTML
 ```html
 <alphabet-filter 
     propAlphaOrder="name"
@@ -85,3 +86,5 @@ export class AppModule { }
     </ng-template>
 </alphabet-filter>
 ```
+#### Result
+![](with-template.png)
