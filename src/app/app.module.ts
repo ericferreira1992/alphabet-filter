@@ -1,8 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 
-import { AlphabetFilterModule } from './../../alphabet-filter/src/public-api';
+import { AlphabetFilterModule } from '../../alphabet-filter/src/public_api';
 import { AppComponent } from './app.component';
 
 @NgModule({
