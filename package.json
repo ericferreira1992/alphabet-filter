@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "postinstall": "ng build --aot --prod",
+    "postinstall": "if [ $PORT ]; then (npm run build:demo && npm run demo); fi",
+    "build:demo": "ng build --aot --prod",
     "demo": "node server.js",
     "build": "ng build --prod",
     "test": "ng test",
