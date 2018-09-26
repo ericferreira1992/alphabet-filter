@@ -8,7 +8,7 @@
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "build:lib": "rimraf dist && npm run packagr && node copy",
+    "build:lib": "rimraf dist && npm run packagr && node copy && cd dist && npm pack",
     "packagr": "ng-packagr -p alphabet-filter/package.json"
   },
   "engines": {
