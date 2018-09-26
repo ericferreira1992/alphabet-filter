@@ -4,8 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "postinstall": "if [ $PORT ]; then npm run demo; fi",
-    "demo": "ng build --aot --prod && node server.js",
+    "heroku-postbuild": "ng build --aot --prod && node server.js",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
