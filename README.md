@@ -1,58 +1,15 @@
 # AlphabetFilter | Angular 6+
 
-Angular project of a component to filter contents in alphabetical listing, in a simple or customized way.
-(Compatible with previous versions of Angular, except AngularJS.)
+Angular component for filtering contents in alphabetical listing, using default or custom templates. Ideal to build contact lists.
 
-### Inputs/Outputs (Required)
-Name		                | Type                | Description
-----                    | ----                | ----
-`data`		              | `any[]`             | Data to be listed.(ex .: ``` <... [data]="contacts"></...>```).
-`propAlphaOrder`		    | `string`            | Property for name of the property to be ordered alphabetically.(ex .: ``` <... propAlphaOrder="name"></...>```).
-`propsSearch`		        | `string` or `string[]` | Property(ies) to be filtered.(ex .: ``` <... [propsSearch]="['name']"></...>```).
-`onClick`   		        | `EventEmitter<any>` | Emit on item click.(ex .: ``` <... (onClick)="selected($event)"></...>```).
-### Inputs/Outputs (Optional)
-Name		        | Type      | Description
-----            | ----      | ----
-`placeholder`   | `string`  | Placeholder of input filter. (ex .: ``` <... []=""></...>```).
-`listClass`     | `string`  | Class name for list element. (ex .: ``` <... listClass="search-list"></...>```).
-`height`        | `string`  | Height to be used throughout the component. (ex .: ``` <... height="100%"></...>```).
-`withTemplate`  | `boolean` | Used when to need of customize using ng-template. (ex .: ``` <... [withTemplate]="true"></...>```).
-`onCancel`   		| `EventEmitter<any>` | Used to enable "close" button.(ex .: ``` <... (onCancel)="cancel()"></...>```).
+Compatible with previous versions of Angular, except AngularJS.
 
-## Usage
+# Demo
 
-### Install
-`npm install alphabet-filter`
+See a [live demo](https://alphabet-filter.herokuapp.com/).
 
-### Import into Module
-```typescript
-import { AlphabetFilterModule } from 'alphabet-filter';
+## Simple use
 
-@NgModule({
-  imports: [
-    ...,
-    AlphabetFilterModule
-  ],
-  declarations: [...],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
-```
-
-### Insert into styles of `angular.json`
-```json
-...
-"styles": [
-  "...",
-  "node_modules/alphabet-filter/alphabet-filter.scss"
-],
-...
-```
-
-### Simple use
-
-#### HTML
 ```html
 <alphabet-filter 
     propAlphaOrder="name"
@@ -63,11 +20,10 @@ export class AppModule { }
     (onClick)="selected($event)">
 </alphabet-filter>
 ```
-#### Result
 ![](simple.png)
 
-### Custom use (with ng-template)
-#### HTML
+## Custom use (with ng-template)
+
 ```html
 <alphabet-filter 
     propAlphaOrder="name"
@@ -86,5 +42,55 @@ export class AppModule { }
     </ng-template>
 </alphabet-filter>
 ```
-#### Result
+
 ![](with-template.png)
+
+# Usage
+
+## Install
+`npm install alphabet-filter`
+
+## Import into Module
+```typescript
+import { AlphabetFilterModule } from 'alphabet-filter';
+
+@NgModule({
+  imports: [
+    ...,
+    AlphabetFilterModule
+  ],
+  declarations: [...],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+## Insert into styles of `angular.json`
+```json
+...
+"styles": [
+  "...",
+  "node_modules/alphabet-filter/alphabet-filter.scss"
+],
+...
+```
+
+# API
+
+## Inputs/Outputs (Required)
+Name		                | Type                | Description
+----                    | ----                | ----
+`data`		              | `any[]`             | Data to be listed.(ex .: ``` <... [data]="contacts"></...>```).
+`propAlphaOrder`		    | `string`            | Property for name of the property to be ordered alphabetically.(ex .: ``` <... propAlphaOrder="name"></...>```).
+`propsSearch`		        | `string` or `string[]` | Property(ies) to be filtered.(ex .: ``` <... [propsSearch]="['name']"></...>```).
+`onClick`   		        | `EventEmitter<any>` | Emit on item click.(ex .: ``` <... (onClick)="selected($event)"></...>```).
+
+## Inputs/Outputs (Optional)
+Name		        | Type      | Description
+----            | ----      | ----
+`placeholder`   | `string`  | Placeholder of input filter. (ex .: ``` <... []=""></...>```).
+`listClass`     | `string`  | Class name for list element. (ex .: ``` <... listClass="search-list"></...>```).
+`height`        | `string`  | Height to be used throughout the component. (ex .: ``` <... height="100%"></...>```).
+`withTemplate`  | `boolean` | Used when to need of customize using ng-template. (ex .: ``` <... [withTemplate]="true"></...>```).
+`onCancel`   		| `EventEmitter<any>` | Used to enable "close" button.(ex .: ``` <... (onCancel)="cancel()"></...>```).
