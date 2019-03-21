@@ -1,12 +1,14 @@
 {
   "name": "alphabet-filter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "repository": "https://github.com/ericferreira1992/alphabet-filter",
   "keywords": [
     "angular",
+    "ngx",
     "search",
-    "filter",
+    "alpha",
     "alphabet",
+    "filter",
     "az"
   ],
   "author": "ericferreira <ericferreira1992@gmail.com>",

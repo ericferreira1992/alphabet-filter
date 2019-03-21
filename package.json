@@ -9,6 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "build:lib": "rimraf dist && npm run packagr && node copy && cd dist && npm pack",
+    "publish-pkg": "pushd dist && npm publish",
     "packagr": "ng-packagr -p alphabet-filter/package.json"
   },
   "engines": {
