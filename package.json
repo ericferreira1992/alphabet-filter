@@ -10,6 +10,7 @@
     "lint": "ng lint",
     "build:lib": "rimraf dist && npm run packagr && node copy && cd dist && npm pack",
     "publish-pkg": "pushd dist && npm publish",
+    "build-and-publish": "npm run build:lib && npm run publish-pkg",
     "packagr": "ng-packagr -p alphabet-filter/package.json"
   },
   "engines": {
