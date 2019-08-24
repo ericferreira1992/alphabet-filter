@@ -1,4 +1,4 @@
-.general {
+/* .general {
   padding: 20px;
   height: 100%;
   background: #FFF;
@@ -10,4 +10,131 @@
   .general {
     padding: 0;
   }
+} */
+
+@import 'src/styles.scss';
+
+:host {
+    $maxWidth: 800px;
+
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    padding-bottom: 80px;
+    min-height: 100%;
+
+    .example-nav-bar {
+        background: $color;
+
+        > div {
+            background: lighten($color, 2);
+            margin: auto;
+            padding: 30px 0;
+            text-align: center;
+            font-size: 30px;
+            color: #FFF;
+            box-shadow: 0 0 15px rgba(0,0,0,.075);
+
+            > span {
+                background: rgba(#FFF, .1);
+                padding: 0 10px;
+            }
+        }
+
+        > ul {
+            font-size: 13px;
+            max-width: $maxWidth;
+            display: block;
+            list-style: none;
+            margin: auto;
+            padding: 0;
+        
+            > li {
+                display: inline-block;
+                vertical-align: middle;
+                padding: 15px 20px;
+                color: #FFF;
+                cursor: pointer;
+                transition-duration: .3s;
+    
+                &.active {
+                    cursor: default;
+                    background: darken($color, 3);
+                }
+    
+                &:not(.active):hover {
+                    background: lighten($color, 3);
+                }
+            }
+        }
+    }
+    
+    .example {
+        display: table;
+        width: 100%;
+        max-width: 900px;
+        padding: 0 30px;
+        margin: auto;
+        box-sizing: border-box;
+
+        > section {
+
+            > h3 {
+                text-align: center;
+                font-size: 20px;
+                margin-bottom: 10px;
+                color: darken($color, 3);
+            }
+
+            > h5 {
+                display: table;
+                margin: auto;
+                text-align: left;
+                font-size: 12px;
+                margin-bottom: 25px;
+                max-width: 500px;
+                
+                color: #888888;
+                padding: 10px 20px;
+                background: #FFF;
+                border: 1px solid rgba($color, .4);
+            }
+        }
+    }
+
+    .footer {
+        box-sizing: border-box;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        background: #FFF;
+        padding: 10px 15px;
+        font-size: 12px;
+        color: #777;
+        text-align: center;
+        box-shadow: -4px 0 20px rgba(0,0,0,.075);
+    }
+}
+
+:host::ng-deep {
+    .search-list {
+        .search-list-item {
+            padding: 10px 0;
+
+            > img {
+                display: inline-block;
+                vertical-align: middle;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                border: 1px solid #DDD;
+            }
+
+            > span {
+                padding-left: 15px;
+                display: inline-block;
+                vertical-align: middle;
+            }
+        }
+    }
 }

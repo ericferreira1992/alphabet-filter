@@ -1,19 +1,50 @@
-<div class="general">
-  <alphabet-filter 
-    propAlphaOrder="name"
-    propsSearch="name"
-    placeholder="digite o nome do contato"
-    listClass="search-list"
-    [data]="contacts"
-    [height]="window.innerWidth < 500 ? '100%' : '500px'"
-    (onClick)="selected($event)"
-  >
-    <ng-template let-item>
-      <div class="search-list-item">
-        <img [src]="item.image" onerror="this.src = 'http://pol.audio/media/user-avatar.png'" alt="">
-        <span>{{item.name}}</span>
-      </div>
-    </ng-template>
-  </alphabet-filter>
+<div class="example-nav-bar">
+    <div>
+        <span>alpha-filter</span>
+    </div>
+    <ul>
+        <li *ngFor="let number of [1,2]" (click)="selectExample(number)" [ngClass]="{'active': currentNumber === number}">Example 0{{number}}</li>
+    </ul>
+</div>
+
+<div class="example">
+    <section>
+        <h3>{{example.title}}</h3>
+        <h5>{{example.html}}</h5>
+
+        <alphabet-filter *ngIf="currentNumber === 1"
+            propAlphaOrder="name"
+            propsSearch="name"
+            placeholder="Digite o nome do contato"
+            [data]="contacts"
+            height="calc(100vh - 430px)"
+            (onClick)="selected($event)"
+        >
+        </alphabet-filter>
+
+        <alphabet-filter *ngIf="currentNumber === 2"
+            propAlphaOrder="name"
+            propsSearch="name"
+            placeholder="digite o nome do contato"
+            [data]="contacts"
+            listClass="search-list"
+            (onClick)="selected($event)"
+            [withTemplate]="true"
+            height="calc(100vh - 430px)"
+        >
+            <ng-template let-item>
+                <div class="search-list-item">
+                    <img [src]="item.image" (error)="$event.target.src = 'assets/img/none.png'" alt="">
+                    <span>{{item.name}}</span>
+                </div>
+            </ng-template>
+        </alphabet-filter>
+    </section>
+</div>
+
+<div style="clear: both"></div>
+<div class="footer">
+    See the source code into <br/>
+    <a href="https://github.com/ericferreira1992/alphabet-filter" target="_blank">Github</a> repository.
 </div>
 

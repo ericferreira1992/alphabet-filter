@@ -33,6 +33,7 @@ See a [live demo](https://alphabet-filter.herokuapp.com/).
     height="500px"
     [data]="contacts"
     (onClick)="selected($event)"
+    [withTemplate]="true"
 >
     <ng-template let-item>
       <div class="search-list-item">

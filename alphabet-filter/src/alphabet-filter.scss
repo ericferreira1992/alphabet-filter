@@ -1,327 +1,376 @@
-.alpha-search{
-  height: 100%;
-  $color: rgb(125, 182, 34);
-  position: relative;
-  
-  * { outline: 0; }
-
-  .alpha-search-content {
-    height: inherit;
+.alpha-search {
+    height: 100%;
+    $color: rgb(125, 182, 34);
     position: relative;
 
-    .close-button {
-      cursor: pointer;
-      position: absolute;
-      z-index: 9999;
-      right: 35px;
-      top: 17px;
-      padding: 9px 10px;
-      background: #FFF;
-      transition-duration: .3s;
-
-      border: none;
-      border-radius: 25px;
-
-      > svg { 
-        fill: #BBB;
-        stroke: #BBB;
-        stroke-width: 0;
-        width: 16px; 
-      }
-
-      &:hover {
-        background: #F0F0F0;
-      }
-    }
-
-    .alpha-search-input {
-      background: #FFF;
-      padding: 15px;
-      border: 1px rgba(#CCC, .6) solid;
-      border-radius: 10px 10px 0 0;
-
-      > input {
-        width: 100%;
-        max-width: inherit;
-        border: none;
+    * {
         outline: 0;
-        box-sizing: border-box;
-        font-size: 18px;
-        padding: 12px 45px 12px 50px;
-        background-color: transparent;
-      }
-
-      .icon {
-        position: absolute;
-
-        > svg {
-          stroke-width: 0;
-        }
-
-        &:first-child {
-          margin-top: 6px;
-
-          > svg { 
-            fill: $color;
-            stroke: $color;
-            width: 32px; 
-          }
-        }
-
-        &:last-child {
-          cursor: pointer;
-          left: 485px;
-          top: 28px;
-
-          > svg { 
-            fill: #BBB;
-            stroke: #BBB;
-            width: 17px; 
-          }
-        }
-      }
     }
 
-    .alpha-search-area {
-      height: calc(100% - 77px);
-      position: relative;
-      box-sizing: border-box;
-      background: #FFF;
-      border-radius: 0 0 10px 10px;
-
-      > ul {
-        height: 100%;
-        list-style: none;
-        margin: 0;
-        padding: 15px 0 15px 0;
-        display: block;
-        box-sizing: border-box;
-        max-height: inherit;
-        overflow-y: auto;
-        overflow-x: hidden;
-        border-radius: 0 0 10px 10px;
-        border: 1px rgba(204, 204, 204, 0.6) solid;
-        border-top: 0;
-
-        > li {
-          padding: 0 20px;
-          position: relative;
-          display: table;
-          width: 100%;
-          box-sizing: border-box;
-          transition-duration: .5s;
-
-          > span {
-            position: relative;
-            z-index: 2;
-            padding: 0 15px;
-            font-weight: bold;
-            font-size: 25px;
-            border-bottom: 1px $color solid;
-            margin-bottom: -1px;
-            display: table;
-            color: $color;
-          }
-
-          .search-item-data {
-            cursor: pointer;
-            z-index: 1;
-            position: relative;
-            display: table;
-            width: 100%;
-            padding: 0 20px;
-            margin: 0 -20px;
-            transition-duration: .3s;
-            border-top: 1px #EEE solid;
-            background: #FFF;
-
-            > span {
-              display: block;
-              padding: 10px 0;
-            }
-          }
-
-          &:hover{
-            .search-item-data {
-              background: rgba(0,0,0, .03);
-            }
-          }
-        }
-
-        @each $item in ('a','b','c','d','e','f','g','h','i','j','k','l','m','o','p','q','r','s','t','u','v','w','x','y','z') {
-          .let-#{$item} ~ .let-#{$item} {
-            > span { display: none; }
-          }
-        }
-      }
-    }
-
-    > section {
-      z-index: 1;
-      position: absolute;
-      right: 1px;
-      top: 77px;
-      bottom: 1px;
-      overflow: hidden;
-      background: linear-gradient(to left, #FFF 30px, transparent 50px);
-      border-radius: 0 0 10px 0;
-
-      .alpha-letters-list {
+    .alpha-search-content {
+        height: inherit;
         position: relative;
-        text-transform: uppercase;
-        transition-duration: .3s;
-        display: table;
-        width: 50px;
-        padding: 1px 0;
-        text-align: center;
-        font-size: 13px;
-        font-weight: bold;
-        box-sizing: border-box;
-        pointer-events: none;
-        opacity: .3;
 
-        > span {
-          position: relative;
-          z-index: 2;
-          display: block;
-          width: 100%;
-        }
-
-        > i {
-          display: block;
-          z-index: 1;
-          position: absolute;
-          left: 5px;
-          top: calc(50% - 20px);
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          transition: .2s;
-          opacity: 0;
-          background: rgba(0,0,0,.1);//linear-gradient(to right, rgba(0,0,0,.1) 50%, transparent 50%)
-        }
-
-        &.contains {
-          opacity: 1;
-          cursor: pointer;
-          pointer-events: all;
-          color: $color;
-
-          > span:hover ~ i {
-            opacity: 1;
-          }
-        }
-
-        &.actived {
-          opacity: 1;
-          z-index: 10;
-          position: relative;
-          color: #FFF;
-          text-shadow: 0px 1px 2px rgba(0,0,0,.6);
-          visibility: hidden;
-        }
-      }
-    }
-
-    .alpha-indicator {
-      z-index: 2;
-      position: absolute;
-      right: 0;
-      top: 0px;
-      margin-top: -50px;
-      display: table;
-      transition-duration: .3s;
-      user-select: none;
-
-      > div {
-        display: table-cell;
-        vertical-align: middle;
-
-        &:nth-child(1) {
-          font-size: 25px;
-          font-weight: bold;
-          text-transform: uppercase;
-          padding-right: 5px;
-
-          > div {
-            display: table;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: $color;
-            color: #FFF;
-
-            > span {
-              display: table-cell;
-              vertical-align: middle;
-              text-align: center;
-            }
-          }
-        }
-
-        &:nth-child(2) {
-          > span {
-            z-index: 1;
-            display: block;
+        .close-button {
+            cursor: pointer;
             position: absolute;
-            left: 68px;
-            top: 50px;
-            font-weight: bold;
-            color: #FFF;
-            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
-          }
+            z-index: 9999;
+            right: 35px;
+            top: 17px;
+            padding: 9px 10px;
+            background: #fff;
+            transition-duration: 0.3s;
 
-          > svg {
-            width: 55px;
-            opacity: .5;
-            fill: rgba($color, .5);
-          }
+            border: none;
+            border-radius: 25px;
+
+            > svg {
+                fill: #bbb;
+                stroke: #bbb;
+                stroke-width: 0;
+                width: 16px;
+            }
+
+            &:hover {
+                background: #f0f0f0;
+            }
         }
-      }
+
+        .alpha-search-input {
+            background: #fff;
+            padding: 15px;
+            border: 1px rgba(#ccc, 0.6) solid;
+            border-radius: 10px 10px 0 0;
+
+            > input {
+                width: 100%;
+                max-width: inherit;
+                border: none;
+                outline: 0;
+                box-sizing: border-box;
+                font-size: 18px;
+                padding: 12px 45px 12px 50px;
+                background-color: transparent;
+            }
+
+            .icon {
+                position: absolute;
+
+                > svg {
+                    stroke-width: 0;
+                }
+
+                &:first-child {
+                    margin-top: 6px;
+
+                    > svg {
+                        fill: $color;
+                        stroke: $color;
+                        width: 32px;
+                    }
+                }
+
+                &:last-child {
+                    cursor: pointer;
+                    left: 485px;
+                    top: 28px;
+
+                    > svg {
+                        fill: #bbb;
+                        stroke: #bbb;
+                        width: 17px;
+                    }
+                }
+            }
+        }
+
+        .alpha-search-area {
+            height: calc(100% - 77px);
+            position: relative;
+            box-sizing: border-box;
+            background: #fff;
+            border-radius: 0 0 10px 10px;
+
+            > ul {
+                height: 100%;
+                list-style: none;
+                margin: 0;
+                padding: 15px 0 15px 0;
+                display: block;
+                box-sizing: border-box;
+                max-height: inherit;
+                overflow-y: auto;
+                overflow-x: hidden;
+                border-radius: 0 0 10px 10px;
+                border: 1px rgba(204, 204, 204, 0.6) solid;
+                border-top: 0;
+
+                > li {
+                    padding: 0 20px;
+                    position: relative;
+                    display: table;
+                    width: 100%;
+                    box-sizing: border-box;
+                    transition-duration: 0.5s;
+
+                    > span {
+                        position: relative;
+                        z-index: 2;
+                        padding: 0 15px;
+                        font-weight: bold;
+                        font-size: 25px;
+                        border-bottom: 1px $color solid;
+                        margin-bottom: -1px;
+                        display: table;
+                        color: $color;
+                    }
+
+                    .search-item-data {
+                        cursor: pointer;
+                        z-index: 1;
+                        position: relative;
+                        display: table;
+                        width: 100%;
+                        padding: 0 20px;
+                        margin: 0 -20px;
+                        transition-duration: 0.3s;
+                        border-top: 1px #eee solid;
+                        background: #fff;
+
+                        > span {
+                            display: block;
+                            padding: 10px 0;
+                        }
+                    }
+
+                    &:hover {
+                        .search-item-data {
+                            background: rgba(0, 0, 0, 0.03);
+                        }
+                    }
+                }
+
+                @each $item
+                    in (
+                        "a",
+                        "b",
+                        "c",
+                        "d",
+                        "e",
+                        "f",
+                        "g",
+                        "h",
+                        "i",
+                        "j",
+                        "k",
+                        "l",
+                        "m",
+                        "n",
+                        "o",
+                        "p",
+                        "q",
+                        "r",
+                        "s",
+                        "t",
+                        "u",
+                        "v",
+                        "w",
+                        "x",
+                        "y",
+                        "z"
+                    )
+                {
+                    .let-#{$item} ~ .let-#{$item} {
+                        > span {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+
+        > section {
+            z-index: 1;
+            position: absolute;
+            right: 1px;
+            top: 77px;
+            bottom: 1px;
+            overflow: hidden;
+            background: linear-gradient(to left, #fff 30px, transparent 50px);
+            border-radius: 0 0 10px 0;
+
+            .alpha-letters-list {
+                position: relative;
+                text-transform: uppercase;
+                transition-duration: 0.3s;
+                display: table;
+                width: 50px;
+                padding: 1px 0;
+                text-align: center;
+                font-size: 13px;
+                font-weight: bold;
+                box-sizing: border-box;
+                pointer-events: none;
+                opacity: 0.3;
+
+                > span {
+                    position: relative;
+                    z-index: 2;
+                    display: block;
+                    width: 100%;
+                }
+
+                > i {
+                    display: block;
+                    z-index: 1;
+                    position: absolute;
+                    left: 5px;
+                    top: calc(50% - 20px);
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    transition: 0.2s;
+                    opacity: 0;
+                    background: rgba(0, 0, 0, 0.1); //linear-gradient(to right, rgba(0,0,0,.1) 50%, transparent 50%)
+                }
+
+                &.contains {
+                    opacity: 1;
+                    cursor: pointer;
+                    pointer-events: all;
+                    color: $color;
+
+                    > span:hover ~ i {
+                        opacity: 1;
+                    }
+                }
+
+                &.actived {
+                    opacity: 1;
+                    z-index: 10;
+                    position: relative;
+                    color: #fff;
+                    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.6);
+                    visibility: hidden;
+                }
+            }
+        }
+
+        .alpha-indicator {
+            z-index: 2;
+            position: absolute;
+            right: 0;
+            top: 0px;
+            margin-top: -50px;
+            display: table;
+            transition-duration: 0.3s;
+            user-select: none;
+
+            > div {
+                display: table-cell;
+                vertical-align: middle;
+
+                &:nth-child(1) {
+                    font-size: 25px;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    padding-right: 5px;
+
+                    > div {
+                        display: table;
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        background: $color;
+                        color: #fff;
+
+                        > span {
+                            display: table-cell;
+                            vertical-align: middle;
+                            text-align: center;
+                        }
+                    }
+                }
+
+                &:nth-child(2) {
+                    > span {
+                        z-index: 1;
+                        display: block;
+                        position: absolute;
+                        left: 68px;
+                        top: 50px;
+                        font-weight: bold;
+                        color: #fff;
+                        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+                    }
+
+                    > svg {
+                        width: 55px;
+                        opacity: 0.5;
+                        fill: rgba($color, 0.5);
+                    }
+                }
+            }
+        }
+
+        &.hidden-title {
+            .alpha-search-title {
+                height: 0;
+            }
+        }
     }
 
-    &.hidden-title {
-      .alpha-search-title {
-        height: 0;
-      }
+    .fadeEnter {
+        -webkit-animation-duration: 0.5s;
+        animation-duration: 0.5s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+
+        -webkit-animation-name: fadeEnter;
+        animation-name: fadeEnter;
     }
-  }
-  
-  .fadeEnter {
-    -webkit-animation-duration: .5s;
-    animation-duration: .5s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
 
-    -webkit-animation-name: fadeEnter;
-    animation-name: fadeEnter;
-  }
-  
-  .fadeExit {
-    -webkit-animation-duration: .5s;
-    animation-duration: .5s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
+    .fadeExit {
+        -webkit-animation-duration: 0.5s;
+        animation-duration: 0.5s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
 
-    -webkit-animation-name: fadeExit;
-    animation-name: fadeExit;
-  }
+        -webkit-animation-name: fadeExit;
+        animation-name: fadeExit;
+    }
 
-  @-webkit-keyframes fadeEnter {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  @keyframes fadeEnter {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
+    @-webkit-keyframes fadeEnter {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @keyframes fadeEnter {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
 
-  @-webkit-keyframes fadeExit {
-    from { opacity: 1; }
-    to { opacity: 0 }
-  }
-  @keyframes fadeExit {
-    from { opacity: 1; }
-    to { opacity: 0; }
-  }
+    @-webkit-keyframes fadeExit {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+        }
+    }
+    @keyframes fadeExit {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+        }
+    }
 }

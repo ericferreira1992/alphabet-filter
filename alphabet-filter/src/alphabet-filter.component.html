@@ -1,4 +1,4 @@
-<div class="alpha-search" [ngStyle]="{'max-height': height}">
+<div class="alpha-search" [ngStyle]="{'height': height}">
   <div #content class="alpha-search-content" [ngClass]="{'hidden-title': hiddenTitle}">
 
     <button class="close-button" *ngIf="onCancel.observers.length > 0" (click)="close()" [ngClass]="{'fadeEnter': !closed, 'fadeExit': closed}" title="Fechar">
