@@ -20,18 +20,19 @@ export class AlphabetFilterComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('indicator') public indicatorEl: ElementRef;
   @ViewChild('content') public contentEl: ElementRef;
 
-  @Input() height: string = '300px';
-  @Input() propAlphaOrder: string = '';
+  @Input() height = '300px';
+  @Input() propAlphaOrder = '';
   @Input() propsSearch: any = [];
   @Input() data: any[] = [];
-  @Input() placeholder: string = 'digite sua busca';
+  @Input() placeholder = 'digite sua busca';
   @Input() listClass: string = null;
-  @Input() withTemplate: boolean = false;
+  @Input() withTemplate = false;
+  @Input() noSmoothScroll = false;
 
   @Output() onCancel = new EventEmitter<any>();
   @Output() onClick = new EventEmitter<any>();
 
-  public closed: boolean = false;
+  public closed = false;
 
   public inputModel: string = null;
   public objFilter: any;
@@ -53,8 +54,9 @@ export class AlphabetFilterComponent implements OnInit, OnChanges, OnDestroy {
   constructor(private filter: FilterPipe,
               private renderer: Renderer) {
 
-    for(var i = 0; i < 26; i++)
+    for (let i = 0; i < 26; i++) {
       this.alphabet.push(String.fromCharCode(97 + i).toUpperCase());
+    }
   }
 
   ngOnInit() {

@@ -1,7 +1,9 @@
-import { Directive, ElementRef, Renderer, OnDestroy } from '@angular/core';
+import { Directive, ElementRef, Renderer, OnDestroy, Input } from '@angular/core';
 
 @Directive({ selector: '[smooth-scroll]' })
 export class SmoothScrollDirective implements OnDestroy {
+
+  @Input('smooth-scroll') public smoothScroll = true;
 
 	private requestFrame: any = function(func) { window.setTimeout(func, 1000 / 50); };
   private moving: boolean = false;
@@ -29,18 +31,20 @@ export class SmoothScrollDirective implements OnDestroy {
   }
 
 	public mousewheel = (e) => {
-    e.preventDefault();
-    
-		let delta = e.delta || e.wheelDelta;
-    
-    if (delta === undefined) delta = -e.detail;
-    
-    delta = Math.max(-1, Math.min(1, delta));
-
-		this.pos += -delta * this.speed;
-		this.pos = Math.max(0, Math.min(this.pos, this.element.nativeElement.scrollHeight - this.element.nativeElement.clientHeight))
-
-    if (!this.moving) this.update();
+    if (this.smoothScroll) {
+      e.preventDefault();
+      
+      let delta = e.delta || e.wheelDelta;
+      
+      if (delta === undefined) delta = -e.detail;
+      
+      delta = Math.max(-1, Math.min(1, delta));
+  
+      this.pos += -delta * this.speed;
+      this.pos = Math.max(0, Math.min(this.pos, this.element.nativeElement.scrollHeight - this.element.nativeElement.clientHeight))
+  
+      if (!this.moving) this.update();
+    }
 	}
 
 	public update = () => {
@@ -55,7 +59,9 @@ export class SmoothScrollDirective implements OnDestroy {
   }
 
   public scroll = () => {
-    if (!this.moving) this.pos = this.element.nativeElement.scrollTop;
+    if (this.smoothScroll) {
+      if (!this.moving) this.pos = this.element.nativeElement.scrollTop;
+    }
   }
   
   ngOnDestroy() {

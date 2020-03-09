@@ -13,16 +13,18 @@
         <h5>{{example.html}}</h5>
 
         <alphabet-filter *ngIf="currentNumber === 1"
+            [noSmoothScroll]="true"
             propAlphaOrder="name"
             propsSearch="name"
             placeholder="Digite o nome do contato"
             [data]="contacts"
-            height="calc(100vh - 430px)"
+            height="550px"
             (onClick)="selected($event)"
         >
         </alphabet-filter>
 
         <alphabet-filter *ngIf="currentNumber === 2"
+            [noSmoothScroll]="true"
             propAlphaOrder="name"
             propsSearch="name"
             placeholder="digite o nome do contato"
@@ -30,7 +32,7 @@
             listClass="search-list"
             (onClick)="selected($event)"
             [withTemplate]="true"
-            height="calc(100vh - 430px)"
+            height="550px"
         >
             <ng-template let-item>
                 <div class="search-list-item">

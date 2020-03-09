@@ -17,6 +17,7 @@ See a [live demo](https://alphabet-filter.herokuapp.com/).
     placeholder="digite o nome do contato"
     height="100%"
     [data]="contacts"
+    [noSmoothScroll]="true"
     (onClick)="selected($event)">
 </alphabet-filter>
 ```

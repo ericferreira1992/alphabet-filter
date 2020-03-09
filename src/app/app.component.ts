@@ -68,12 +68,12 @@ export class AppComponent {
 	public examples: any[] = [
 		{
 			title: 'Simple use',
-			html: '<alphabet-filter propAlphaOrder="name" propsSearch="name" placeholder="Digite o nome do contato" [data]="contacts" height="calc(100vh - 430px)"></alphabet-filter>'
+			html: '<alphabet-filter propAlphaOrder="name" propsSearch="name" placeholder="Digite o nome do contato" [data]="contacts" height="calc(100vh - 430px)" [noSmoothScroll]="true"></alphabet-filter>'
 		},
 		{
 			title: 'Custom template',
             html: 
-            '<alphabet-filter propAlphaOrder="name" propsSearch="name" placeholder="Digite o nome do contato" [data]="contacts" height="calc(100vh - 430px)" [withTemplate]="true">' +
+            '<alphabet-filter propAlphaOrder="name" propsSearch="name" placeholder="Digite o nome do contato" [data]="contacts" height="calc(100vh - 430px)" [withTemplate]="true" [noSmoothScroll]="true">' +
                 '<ng-template let-item>' +
                     '<div class="search-list-item">' +
                         '<img [src]="item.image" (error)="$event.target.src = \'assets/img/none.png\'" alt="">' +

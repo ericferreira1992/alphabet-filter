@@ -34,7 +34,7 @@
     </div>
 
     <div class="alpha-search-area" [ngClass]="{'fadeEnter': !closed, 'fadeExit': closed}">
-      <ul #searchList smooth-scroll class="search-list" [ngClass]="listClass" [ngStyle]="indicatorClicked ? {'overflow': 'hidden'} : {}">
+      <ul #searchList [smooth-scroll]="!noSmoothScroll" class="search-list" [ngClass]="listClass" [ngStyle]="indicatorClicked ? {'overflow': 'hidden'} : {}">
         <li *ngFor="let item of data | filter:objFilter:true" [ngClass]="item.$class" class="fadeEnter">
           <span [innerHtml]="item.$letter"></span>
           <div class="search-item-data" (click)="click(item)">
