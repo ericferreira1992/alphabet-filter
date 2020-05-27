@@ -131,5 +131,8 @@
       }
     }
   },
-  "defaultProject": "alphabet-filter"
+  "defaultProject": "alphabet-filter",
+  "cli": {
+    "analytics": "7a6d8955-c90d-4fde-8c41-691f97380495"
+  }
 }

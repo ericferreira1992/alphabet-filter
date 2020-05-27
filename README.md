@@ -1,4 +1,4 @@
-# AlphabetFilter | Angular 6+
+# AlphabetFilter | Angular 9+
 
 Angular component for filtering contents in alphabetical listing, using default or custom templates. Ideal to build contact lists.
 
@@ -6,7 +6,7 @@ Compatible with previous versions of Angular, except AngularJS.
 
 # Demo
 
-See a [live demo](https://alphabet-filter.herokuapp.com/).
+See a [live demo](https://ericferreira1992.github.io/alphabet-filter).
 
 ## Simple use
 

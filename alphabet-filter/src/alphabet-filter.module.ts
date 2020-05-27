@@ -8,24 +8,21 @@ import { FilterPipe } from './filter.pipe';
 import { SmoothScrollDirective } from './smooth-scroll.directive';
 
 @NgModule({
-  imports: [
-    FormsModule,
-    CommonModule,
-  ],
-  exports: [
-    AlphabetFilterComponent,
-    SmoothScrollDirective
-  ],
-  declarations: [
-    AlphabetFilterComponent,
-    FilterPipe,
-    SmoothScrollDirective
-  ],
-  providers: [
-    FilterPipe
-  ],
-  entryComponents: [
-    AlphabetFilterComponent,
-  ]
+    imports: [
+        FormsModule,
+        CommonModule,
+    ],
+    exports: [
+        AlphabetFilterComponent,
+        SmoothScrollDirective
+    ],
+    declarations: [
+        AlphabetFilterComponent,
+        FilterPipe,
+        SmoothScrollDirective
+    ],
+    providers: [
+        FilterPipe
+    ]
 })
 export class AlphabetFilterModule { }

@@ -1,5 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef, OnChanges, SimpleChanges, ContentChild, TemplateRef, OnDestroy, Renderer2 } from '@angular/core';
-import { ClassField } from '@angular/compiler';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef, OnChanges, SimpleChanges, ContentChild, Renderer2, TemplateRef, OnDestroy } from '@angular/core';
 import { FilterPipe } from './filter.pipe';
 
 @Component({
