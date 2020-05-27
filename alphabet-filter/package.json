@@ -15,8 +15,8 @@
   "license": "MIT",
   "private": false,
   "peerDependencies": {
-    "@angular/core": ">=6.0.0",
-    "@angular/common": ">=6.0.0",
+    "@angular/core": ">=7.2.16",
+    "@angular/common": ">=6.0.3",
     "@angular/forms": "^6.0.3"
   },
   "ngPackage": {

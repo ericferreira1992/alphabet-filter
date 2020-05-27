@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef, OnChanges, SimpleChanges, ContentChild, TemplateRef, Renderer, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef, OnChanges, SimpleChanges, ContentChild, TemplateRef, OnDestroy, Renderer2 } from '@angular/core';
 import { ClassField } from '@angular/compiler';
 import { FilterPipe } from './filter.pipe';
 
@@ -52,7 +52,7 @@ export class AlphabetFilterComponent implements OnInit, OnChanges, OnDestroy {
   private timer: any = null;
 
   constructor(private filter: FilterPipe,
-              private renderer: Renderer) {
+              private renderer: Renderer2) {
 
     for (let i = 0; i < 26; i++) {
       this.alphabet.push(String.fromCharCode(97 + i).toUpperCase());

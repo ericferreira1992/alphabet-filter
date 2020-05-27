@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Renderer, OnDestroy, Input } from '@angular/core';
+import { Directive, ElementRef, OnDestroy, Input, Renderer2 } from '@angular/core';
 
 @Directive({ selector: '[smooth-scroll]' })
 export class SmoothScrollDirective implements OnDestroy {
@@ -12,7 +12,7 @@ export class SmoothScrollDirective implements OnDestroy {
   private smooth: number = 12;
 
   constructor(private element: ElementRef,
-              private renderer: Renderer) {
+              private renderer: Renderer2) {
                 
     this.requestFrame = window['requestAnimationFrame'] ||
                         window['webkitRequestAnimationFrame'] ||
