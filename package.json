@@ -15,8 +15,8 @@
         "deploy-git-pages": "ng build --aot --prod --base-href=/alphabet-filter/ && node node_modules/gh-pages/bin/gh-pages -d dist/alphabet-filter"
     },
     "engines": {
-        "node": "8.11.3",
-        "npm": "6.4.1"
+        "node": "12.14.0",
+        "npm": "6.13.4"
     },
     "private": true,
     "dependencies": {
