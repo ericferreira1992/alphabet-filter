@@ -20,8 +20,10 @@
           </g>
         </svg>        
       </div>
-      <input #inputSearch type="text" [placeholder]="placeholder" [(ngModel)]="inputModel" (ngModelChange)="setFilter()" autofocus/>
-      <div class="icon" (click)="clearFilter()" *ngIf="inputModel">
+      <form [formGroup]="form">
+		<input #inputSearch type="text" formControlName="search" [placeholder]="placeholder" autofocus/>
+	  </form>
+      <div class="icon" (click)="clearFilter()" *ngIf="form.controls.search.value">
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 212.982 212.982" xml:space="preserve">
           <g>
             <path style="fill-rule:evenodd;clip-rule:evenodd;" d="M131.804,106.491l75.936-75.936c6.99-6.99,6.99-18.323,0-25.312

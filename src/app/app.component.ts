@@ -61,6 +61,8 @@ export class AppComponent {
         { name: 'Long Maroney', image: '' },
         { name: 'Merrill Sabo', image: '' },
         { name: 'Corrine Iwamoto', image: '' },
+        { name: 'Eric Andrade Ferreira', image: '' },
+        { name: 'cauã Ferreira', image: '' },
     ];
 
 	public currentNumber: number = 1;

@@ -1,4 +1,4 @@
-# AlphabetFilter | Angular 9+
+# AlphabetFilter | Angular 10+
 
 Angular component for filtering contents in alphabetical listing, using default or custom templates. Ideal to build contact lists.
 

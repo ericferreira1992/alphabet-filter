@@ -1,283 +1,283 @@
 import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef, OnChanges, SimpleChanges, ContentChild, Renderer2, TemplateRef, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { FilterPipe } from './filter.pipe';
 
 @Component({
-    selector: 'alphabet-filter',
-    templateUrl: './alphabet-filter.component.html',
-    host: {
-      '(document:mousewheel)': 'onMouseWheelContent($event)',
-      '(document:keydown)': 'onKeyDownContent($event)'
-    },
-  })
+	selector: 'alphabet-filter',
+	templateUrl: './alphabet-filter.component.html',
+	host: {
+		'(document:mousewheel)': 'onMouseWheelContent($event)',
+		'(document:keydown)': 'onKeyDownContent($event)'
+	},
+})
 export class AlphabetFilterComponent implements OnInit, OnChanges, OnDestroy {
-  @ContentChild(TemplateRef) templateRef: TemplateRef<any>;
+	@ContentChild(TemplateRef) templateRef: TemplateRef<any>;
 
-  @ViewChild('inputBody') public inputBodyEl: ElementRef;
-  @ViewChild('inputSearch') public inputSearchEl: ElementRef;
-  @ViewChild('searchList') public searchListEl: ElementRef;
-  @ViewChild('letterList') public letterList: ElementRef;
-  @ViewChild('indicator') public indicatorEl: ElementRef;
-  @ViewChild('content') public contentEl: ElementRef;
+	@ViewChild('inputBody') public inputBodyEl: ElementRef<HTMLElement>;
+	@ViewChild('inputSearch') public inputSearchEl: ElementRef<HTMLElement>;
+	@ViewChild('searchList') public searchListEl: ElementRef<HTMLElement>;
+	@ViewChild('letterList') public letterList: ElementRef<HTMLElement>;
+	@ViewChild('indicator') public indicatorEl: ElementRef<HTMLElement>;
+	@ViewChild('content') public contentEl: ElementRef<HTMLElement>;
 
-  @Input() height = '300px';
-  @Input() propAlphaOrder = '';
-  @Input() propsSearch: any = [];
-  @Input() data: any[] = [];
-  @Input() placeholder = 'digite sua busca';
-  @Input() listClass: string = null;
-  @Input() withTemplate = false;
-  @Input() noSmoothScroll = false;
+	@Input() height = '300px';
+	@Input() propAlphaOrder = '';
+	@Input() propsSearch: any = [];
+	@Input() data: any[] = [];
+	@Input() placeholder = 'digite sua busca';
+	@Input() listClass: string = null;
+	@Input() withTemplate = false;
+	@Input() noSmoothScroll = false;
 
-  @Output() onCancel = new EventEmitter<any>();
-  @Output() onClick = new EventEmitter<any>();
+	@Output() onCancel = new EventEmitter<any>();
+	@Output() onClick = new EventEmitter<any>();
 
-  public closed = false;
+	public form: FormGroup;
 
-  public inputModel: string = null;
-  public objFilter: any;
-  public inputFocused: boolean = false;
+	public closed = false;
 
-  public heightContent: number = 0;
+	public objFilter: any;
+	public inputFocused: boolean = false;
 
-  public alphabet: string[] = [];
-  public currentAlpha: string  = '';
-  public currentLetterElement: any  = null;
+	public heightContent: number = 0;
 
-  public hiddenTitle: boolean = false;
-  public lettersListHeight: number = 0;
+	public alphabet: string[] = [];
+	public currentAlpha: string = '';
+	public currentLetterElement: any = null;
 
-  public indicatorClicked = false;
+	public hiddenTitle: boolean = false;
+	public lettersListHeight: number = 0;
 
-  private timer: any = null;
+	public indicatorClicked = false;
 
-  constructor(private filter: FilterPipe,
-              private renderer: Renderer2) {
+	private goingToLetter: boolean = false;
 
-    for (let i = 0; i < 26; i++) {
-      this.alphabet.push(String.fromCharCode(97 + i).toUpperCase());
-    }
-  }
+	constructor(
+		private filter: FilterPipe,
+		private renderer: Renderer2,
+		private formBuilder: FormBuilder,
+	) {
+		for (let i = 0; i < 26; i++) {
+			this.alphabet.push(String.fromCharCode(97 + i).toUpperCase());
+		}
+		this.form = this.formBuilder.group({
+			search: [null]
+		});
+		this.form.get('search').valueChanges.subscribe(this.setFilter.bind(this));
+	}
 
-  ngOnInit() {
-    setTimeout(() => {
-      this.renderer.listen(this.searchListEl.nativeElement, 'scroll', this.onScrollList.bind(this));
+	ngOnInit() {
+		setTimeout(() => {
+			this.renderer.listen(this.searchListEl.nativeElement, 'scroll', this.onScrollList.bind(this));
 
-      this.renderer.listen(this.contentEl.nativeElement, 'mouseup', this.onMouseUpContent.bind(this));
-      this.renderer.listen(this.contentEl.nativeElement, 'mousemove', this.onMouseMoveContent.bind(this));
+			this.renderer.listen(this.contentEl.nativeElement, 'mouseup', this.onMouseUpContent.bind(this));
+			this.renderer.listen(this.contentEl.nativeElement, 'mousemove', this.onMouseMoveContent.bind(this));
 
-      this.renderer.listen(this.indicatorEl.nativeElement, 'mousedown', this.onMouseDownIndicator.bind(this));
-      this.renderer.listen(this.indicatorEl.nativeElement, 'mouseup', this.onMouseUpIndicator.bind(this));
+			this.renderer.listen(this.indicatorEl.nativeElement, 'mousedown', this.onMouseDownIndicator.bind(this));
+			this.renderer.listen(this.indicatorEl.nativeElement, 'mouseup', this.onMouseUpIndicator.bind(this));
 
-      this.heightContent = this.contentEl.nativeElement.clientHeight + (this.onCancel ? 20 : 37);
+			this.heightContent = this.contentEl.nativeElement.clientHeight + (this.onCancel ? 20 : 37);
 
-      this.lettersListHeight = this.letterList.nativeElement.children[0].clientHeight;
+			this.lettersListHeight = this.letterList.nativeElement.children[0].clientHeight;
 
-      this.focusInput();
-    }, 100);
-  }
+			this.focusInput();
+		}, 100);
+	}
 
-  smoothScrollTop(scroll, duration?) {
-    if (this.timer) {
-      clearInterval(this.timer);
-      this.timer = null;
-    }
+	ngOnChanges(changes: SimpleChanges) {
+		if ('data' in changes) {
+			this.data = this.orderBy();
+			if (this.data && this.propAlphaOrder) {
+				this.data.forEach((item) => {
+					let letter = item[this.propAlphaOrder].substr(0, 1);
+					item['$letter'] = letter.toUpperCase();
+					item['$class'] = 'let-' + letter.toLowerCase();
+				});
 
-    let element = this.searchListEl.nativeElement;
-    let start = element.scrollTop;
+				setTimeout(() => this.defineCurrentLetterElement(), 100);
+			}
+		}
+		if ('propsSearch' in changes && this.propsSearch) {
+			if (typeof this.propsSearch === 'string')
+				this.propsSearch = [this.propsSearch];
 
-    if(scroll < 0) scroll = 0;
+			this.objFilter = {};
+			for (const prop of this.propsSearch) { this.objFilter[prop] = null; }
+			this.setFilter();
+		}
+	}
 
-    let distance = (scroll - start) - 77;
+	defineCurrentLetterElement() {
+		if (!this.goingToLetter) {
+			const ulPosition = this.searchListEl.nativeElement.getBoundingClientRect();
+			const ulTop = ulPosition.top;
 
-    let startTime = new Date().getTime();
+			const elementsLetters = [];
+			let current = null;
+			for (const liElement of (this.searchListEl.nativeElement.children as any)) {
+				let letterClass = '';
 
-    if (!duration) duration = 400;
+				for (const className of liElement.classList) {
+					if (className.startsWith('let-')) {
+						letterClass = className;
+						break;
+					}
+				}
 
-    let easeInOutQuart = (time, from, distance, duration) => {
-      if ((time /= duration / 2) < 1) return distance / 2 * time * time * time * time + from;
-      return -distance / 2 * ((time -= 2) * time * time * time - 2) + from;
-    };
+				if (elementsLetters.filter(x => x.classList.contains(letterClass)).length === 0) {
+					elementsLetters.push(liElement);
 
-    this.timer = setInterval(() => {
-      const time = new Date().getTime() - startTime,
-      newTop = easeInOutQuart(time, start, distance, duration);
+					const liPosition = liElement.getBoundingClientRect();
+					const liTop = liPosition.top - 20;
 
-      if (time >= duration) {
-        clearInterval(this.timer);
-        this.timer = null;
-      }
+					if (liTop < ulTop) current = liElement;
+				}
+			}
 
-      if (element.scrollTo) element.scrollTo(element.scrollLeft, newTop);
-      else element.scrollTop = newTop;
-    }, 1000 / 60);
-  };
+			if (current && current !== this.currentLetterElement) {
+				current.children[0]['position'] = current.children[0].innerHTML.charCodeAt(0) - 65;
+				this.currentLetterElement = current;
+				this.currentAlpha = current.children[0].innerHTML;
+			}
+			else if (!current) {
+				this.currentLetterElement = null;
+				this.currentAlpha = '';
+			}
+		}
+	}
 
-  ngOnChanges(changes: SimpleChanges) {
-    if ('data' in changes) {
-      this.data = this.orderBy();
-      if (this.data && this.propAlphaOrder){
-        this.data.forEach((item) => {
-          let letter = item[this.propAlphaOrder].substr(0,1);
-          item['$letter'] = letter.toUpperCase();
-          item['$class'] = 'let-' + letter.toLowerCase();
-        });
+	public goLetter(letter: string) {
+		this.currentAlpha = letter;
+		for (const liElement of (this.searchListEl.nativeElement.children as any)) {
+			let liLetter = '';
 
-        setTimeout(() => this.defineCurrentLetterElement(), 100);
-      }
-    }
-    if ('propsSearch' in changes && this.propsSearch) {
+			for (const className of liElement.classList) {
+				if (className.startsWith('let-')) {
+					liLetter = className.replace('let-', '').toUpperCase();
+					break;
+				}
+			}
 
-      if (typeof this.propsSearch === 'string')
-        this.propsSearch = [this.propsSearch];
-        
-      this.objFilter = {};
-      for(let prop of this.propsSearch) { this.objFilter[prop] = null; }
-      this.setFilter();
-    }
-  }
+			if (letter === liLetter) {
+				liElement.children[0]['position'] = liElement.children[0].innerHTML.charCodeAt(0) - 65;
+				this.currentLetterElement = liElement;
 
-  defineCurrentLetterElement() {
-    if (!this.timer) {
+				const lettersElList = this.searchListEl.nativeElement.children as any;
+				const letterElement = [...lettersElList].find((el: HTMLElement) => {
+					const splitted = el.classList.value.split(' ');
+					if (splitted.length > 0 && splitted[splitted.length - 1].includes('-')) {
+						const letterClass = splitted[splitted.length - 1].split('-')[1].toUpperCase();
+						return letterClass === letter;
+					}
+					return false;
+				});
+				if (letterElement) {
+					const scrollHeight = this.searchListEl.nativeElement.scrollHeight - this.searchListEl.nativeElement.clientHeight;
+					const scrollTop = Math.min(scrollHeight, letterElement.offsetTop);
 
-      let ulPosition = this.searchListEl.nativeElement.getBoundingClientRect();
-      let ulTop = ulPosition.top;
+					this.searchListEl.nativeElement.scrollTo({
+						left: 0,
+						top: scrollTop,
+						behavior: 'smooth'
+					});
 
-      let elementsLetters = [];
-      let current = null;
+					this.goingToLetter = true;
+					const checkIfScrollToIsFinished = setInterval(() => {
+						if (scrollTop === this.searchListEl.nativeElement.scrollTop) {
+							clearInterval(checkIfScrollToIsFinished);
+							this.goingToLetter = false;
+						}
+					}, 60);
+				}
+				break;
+			}
+		}
+	}
+	onMouseMoveContent(event) {
+		if (!this.form.get('search').value && this.indicatorClicked) {
+			for (const letter of (this.letterList.nativeElement.children as any)) {
+				if (letter.classList.contains('contains')) {
+					const position = letter.getBoundingClientRect();
+					const bounds = { top: position.y, bottom: (position.y + letter.clientHeight) };
 
-      for (let liElement of this.searchListEl.nativeElement.children) {
-        let letterClass = '';
+					if (event.clientY >= bounds.top && event.clientY <= bounds.bottom) {
 
-        for (let className of liElement.classList) {
-          if (className.startsWith('let-')) {
-            letterClass = className;
-            break;
-          }
-        }
+						if (this.currentAlpha !== letter.children[0].innerHTML)
+							this.goLetter(letter.children[0].innerHTML);
+						break;
+					}
+				}
+			}
+		}
+	}
 
-        if (elementsLetters.filter(x => x.classList.contains(letterClass)).length === 0) {
-          elementsLetters.push(liElement);
+	onMouseDownIndicator(event) { if (event.button === 0) this.indicatorClicked = true; }
 
-          let liPosition = liElement.getBoundingClientRect();
-          let liTop = liPosition.top - 20;
+	onMouseUpIndicator(event) { this.indicatorClicked = false; }
 
-          if (liTop < ulTop) current = liElement;
-        }
-      }
+	onMouseUpContent(event) { this.indicatorClicked = false; }
 
-      if (current && current !== this.currentLetterElement) {
-        current.children[0]['position'] = current.children[0].innerHTML.charCodeAt(0) - 65;
-        this.currentLetterElement = current;
-        this.currentAlpha = current.children[0].innerHTML;
-      }
-      else if (!current) {
-        this.currentLetterElement = null;
-        this.currentAlpha = '';
-      }
-    }
-  }
+	onScrollList(e) {
+		if (!this.goingToLetter) {
+			if (!this.indicatorClicked) this.defineCurrentLetterElement();
+		}
+	}
 
-  goLetter(letter: string) {
-    this.currentAlpha = letter;
-    for (let liElement of this.searchListEl.nativeElement.children) {
-      let liLetter = '';
+	onMouseWheelContent(event: any) {
+	}
 
-      for (let className of liElement.classList) {
-        if (className.startsWith('let-')) {
-          liLetter = className.replace('let-','').toUpperCase();
-          break;
-        }
-      }
+	onKeyDownContent(event: KeyboardEvent) {
+		const e = event as any;
+		const key = (e.key || e.keyIdentifier || e.keyCode) as any;
+		if (key === 27 || key === 'Escape')
+			this.close();
+	}
 
-      if (letter === liLetter) {
-        liElement.children[0]['position'] = liElement.children[0].innerHTML.charCodeAt(0) - 65;
-        this.currentLetterElement = liElement;
+	click(data = null) {
+		this.onClick.emit(data);
+	}
 
-        this.smoothScrollTop(liElement.offsetTop - 10);
+	close() {
+		if (this.onCancel.observers.length > 0)
+			this.onCancel.emit();
+	}
 
-        break;
-      }
-    }
-  }
-  onMouseMoveContent(event){
-    if (!this.inputModel && this.indicatorClicked) {
-      for (let letter of this.letterList.nativeElement.children) {
-        if (letter.classList.contains('contains')) {
-          let position = letter.getBoundingClientRect();
-          let bounds = { top: position.y, bottom: (position.y + letter.clientHeight) };
+	focusInput() {
+		this.inputSearchEl.nativeElement.focus();
+	}
 
-          if (event.clientY >= bounds.top && event.clientY <= bounds.bottom) {
+	startsWithLetter(letter: string) {
+		return this.filter.transform(this.data, this.objFilter, true)
+			.filter(x => x[this.propAlphaOrder].startsWith(letter.toUpperCase()))
+			.length > 0;
+	}
 
-            if (this.currentAlpha !== letter.children[0].innerHTML)
-              this.goLetter(letter.children[0].innerHTML);
-            break;
-          }
-        }
-      }
-    }
-  }
+	setFilter() {
+		if (this.objFilter) {
+			Object.keys(this.objFilter).forEach((prop) => {
+				this.objFilter[prop] = this.form.get('search').value
+			});
+			this.objFilter = Object.assign({}, this.objFilter);
+			setTimeout(() => this.defineCurrentLetterElement(), 100);
+		}
+	}
 
-  onMouseDownIndicator(event) { if (event.button === 0) this.indicatorClicked = true; }
+	public clearFilter() {
+		this.form.get('search').setValue(null);
+		this.setFilter();
+	}
 
-  onMouseUpIndicator(event) { this.indicatorClicked = false; }
+	private orderBy() {
+		return this.data.sort((a: {[key: string]: string}, b: any) => {
+			if (a[this.propAlphaOrder].toUpperCase() < b[this.propAlphaOrder].toUpperCase())
+				return -1;
+			if (a[this.propAlphaOrder].toUpperCase() > b[this.propAlphaOrder].toUpperCase())
+				return 1;
 
-  onMouseUpContent(event) { this.indicatorClicked = false; }
+			return 0;
+		});
+	}
 
-  onScrollList(e) {
-    if (!this.indicatorClicked) this.defineCurrentLetterElement();
-  }
-  
-  onMouseWheelContent(event: any) {
-  }
-
-  onKeyDownContent(event: KeyboardEvent) {
-    if (event.keyCode === 27)
-      this.close();
-  }
-
-  click(data = null) {
-    this.onClick.emit(data)
-  }
-
-  close() {
-    if (this.onCancel.observers.length > 0)
-      this.onCancel.emit();
-  }
-
-  focusInput() {
-    this.inputSearchEl.nativeElement.focus();
-  }
-
-  startsWithLetter(letter: string) {
-    return this.filter.transform(this.data, this.objFilter, true)
-                      .filter(x => x[this.propAlphaOrder].startsWith(letter.toUpperCase()))
-                      .length > 0;
-  }
-
-  setFilter() {
-    if (this.objFilter) {
-      Object.keys(this.objFilter).forEach((prop) => this.objFilter[prop] = this.inputModel);
-      this.objFilter = Object.assign({}, this.objFilter);
-      setTimeout(() => this.defineCurrentLetterElement(), 100);
-    }
-  }
-
-  clearFilter() {
-    this.inputModel = null;
-    this.setFilter();
-  }
-
-  orderBy() { 
-    return this.data.sort((a: any, b: any) => {
-      if (a[this.propAlphaOrder] < b[this.propAlphaOrder])
-        return -1;
-      if (a[this.propAlphaOrder] > b[this.propAlphaOrder])
-        return 1;
-          
-      return 0;
-    });
-  }
-
-  ngOnDestroy(): void {
-  }
+	ngOnDestroy(): void {
+	}
 }

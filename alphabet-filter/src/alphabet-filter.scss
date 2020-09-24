@@ -42,7 +42,7 @@
             border: 1px rgba(#ccc, 0.6) solid;
             border-radius: 10px 10px 0 0;
 
-            > input {
+            > form > input {
                 width: 100%;
                 max-width: inherit;
                 border: none;
@@ -202,7 +202,7 @@
                     border-radius: 50%;
                     transition: 0.2s;
                     opacity: 0;
-                    background: rgba(0, 0, 0, 0.1); //linear-gradient(to right, rgba(0,0,0,.1) 50%, transparent 50%)
+                    background: rgba(0, 0, 0, 0.1);
                 }
 
                 &.contains {
@@ -234,7 +234,7 @@
             top: 0px;
             margin-top: -50px;
             display: table;
-            transition-duration: 0.3s;
+            transition-duration: 0.5s;
             user-select: none;
 
             > div {
