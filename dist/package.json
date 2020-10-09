@@ -1,0 +1,33 @@
+{
+  "name": "alphabet-filter",
+  "version": "1.2.1",
+  "repository": "https://github.com/ericferreira1992/alphabet-filter",
+  "keywords": [
+    "angular",
+    "ngx",
+    "search",
+    "alpha",
+    "alphabet",
+    "filter",
+    "az"
+  ],
+  "author": "ericferreira <ericferreira1992@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@angular/core": ">=10.1.3",
+    "@angular/common": ">=10.1.3",
+    "@angular/forms": ">=10.1.3"
+  },
+  "main": "bundles/alphabet-filter.umd.js",
+  "module": "fesm2015/alphabet-filter.js",
+  "es2015": "fesm2015/alphabet-filter.js",
+  "esm2015": "esm2015/alphabet-filter.js",
+  "fesm2015": "fesm2015/alphabet-filter.js",
+  "typings": "alphabet-filter.d.ts",
+  "metadata": "alphabet-filter.metadata.json",
+  "sideEffects": false
+}
