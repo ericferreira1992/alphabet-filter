@@ -1,6 +1,6 @@
 {
 	"name": "alphabet-filter",
-	"version": "1.2.1",
+	"version": "1.2.2",
 	"repository": "https://github.com/ericferreira1992/alphabet-filter",
 	"scripts": {
 		"build:lib": "rimraf dist && npm run packagr && node copy && cd dist && npm pack",

@@ -41,8 +41,8 @@ export declare class AlphabetFilterComponent implements OnInit, OnChanges, OnDes
     goLetter(letter: string): void;
     onMouseMoveContent(event: any): void;
     onMouseDownIndicator(event: any): void;
-    onMouseUpIndicator(event: any): void;
-    onMouseUpContent(event: any): void;
+    onMouseUpIndicator(): void;
+    onMouseUpContent(): void;
     onScrollList(e: any): void;
     onMouseWheelContent(event: any): void;
     onKeyDownContent(event: KeyboardEvent): void;

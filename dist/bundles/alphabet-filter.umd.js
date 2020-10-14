@@ -388,7 +388,7 @@
             }, 100);
         };
         AlphabetFilterComponent.prototype.ngOnChanges = function (changes) {
-            var e_1, _a;
+            var e_1, _b;
             var _this = this;
             if ('data' in changes) {
                 this.data = this.orderBy();
@@ -406,15 +406,15 @@
                     this.propsSearch = [this.propsSearch];
                 this.objFilter = {};
                 try {
-                    for (var _b = __values(this.propsSearch), _c = _b.next(); !_c.done; _c = _b.next()) {
-                        var prop = _c.value;
+                    for (var _c = __values(this.propsSearch), _d = _c.next(); !_d.done; _d = _c.next()) {
+                        var prop = _d.value;
                         this.objFilter[prop] = null;
                     }
                 }
                 catch (e_1_1) { e_1 = { error: e_1_1 }; }
                 finally {
                     try {
-                        if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                        if (_d && !_d.done && (_b = _c.return)) _b.call(_c);
                     }
                     finally { if (e_1) throw e_1.error; }
                 }
@@ -422,18 +422,18 @@
             }
         };
         AlphabetFilterComponent.prototype.defineCurrentLetterElement = function () {
-            var e_2, _a;
+            var e_2, _b;
             if (!this.goingToLetter) {
                 var ulPosition = this.searchListEl.nativeElement.getBoundingClientRect();
                 var ulTop = ulPosition.top;
                 var elementsLetters = [];
                 var current = null;
                 var _loop_1 = function (liElement) {
-                    var e_3, _a;
+                    var e_3, _b;
                     var letterClass = '';
                     try {
-                        for (var _b = (e_3 = void 0, __values(liElement.classList)), _c = _b.next(); !_c.done; _c = _b.next()) {
-                            var className = _c.value;
+                        for (var _c = (e_3 = void 0, __values(liElement.classList)), _d = _c.next(); !_d.done; _d = _c.next()) {
+                            var className = _d.value;
                             if (className.startsWith('let-')) {
                                 letterClass = className;
                                 break;
@@ -443,7 +443,7 @@
                     catch (e_3_1) { e_3 = { error: e_3_1 }; }
                     finally {
                         try {
-                            if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                            if (_d && !_d.done && (_b = _c.return)) _b.call(_c);
                         }
                         finally { if (e_3) throw e_3.error; }
                     }
@@ -456,15 +456,15 @@
                     }
                 };
                 try {
-                    for (var _b = __values(this.searchListEl.nativeElement.children), _c = _b.next(); !_c.done; _c = _b.next()) {
-                        var liElement = _c.value;
+                    for (var _c = __values(this.searchListEl.nativeElement.children), _d = _c.next(); !_d.done; _d = _c.next()) {
+                        var liElement = _d.value;
                         _loop_1(liElement);
                     }
                 }
                 catch (e_2_1) { e_2 = { error: e_2_1 }; }
                 finally {
                     try {
-                        if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                        if (_d && !_d.done && (_b = _c.return)) _b.call(_c);
                     }
                     finally { if (e_2) throw e_2.error; }
                 }
@@ -480,82 +480,39 @@
             }
         };
         AlphabetFilterComponent.prototype.goLetter = function (letter) {
-            var e_4, _a;
             var _this = this;
             this.currentAlpha = letter;
-            var _loop_2 = function (liElement) {
-                var e_5, _a;
-                var liLetter = '';
-                try {
-                    for (var _b = (e_5 = void 0, __values(liElement.classList)), _c = _b.next(); !_c.done; _c = _b.next()) {
-                        var className = _c.value;
-                        if (className.startsWith('let-')) {
-                            liLetter = className.replace('let-', '').toUpperCase();
-                            break;
-                        }
+            var lettersElList = this.searchListEl.nativeElement.children;
+            var letterElement = __spread(lettersElList).find(function (el) {
+                var _a;
+                var letterClass = ((_a = el.classList.value.split(' ').find(function (x) { return x.startsWith('let-'); })) !== null && _a !== void 0 ? _a : '').replace('let-', '');
+                return letterClass.toUpperCase() === letter.toUpperCase();
+            });
+            if (letterElement) {
+                letterElement.children[0]['position'] = letterElement.children[0].innerHTML.charCodeAt(0) - 65;
+                this.currentLetterElement = letterElement;
+                var scrollHeight = this.searchListEl.nativeElement.scrollHeight - this.searchListEl.nativeElement.clientHeight;
+                var scrollTop_1 = Math.min(scrollHeight, letterElement.offsetTop);
+                this.searchListEl.nativeElement.scrollTo({
+                    left: 0,
+                    top: scrollTop_1,
+                    behavior: 'smooth'
+                });
+                this.goingToLetter = true;
+                var checkIfScrollToIsFinished_1 = setInterval(function () {
+                    if (scrollTop_1 === _this.searchListEl.nativeElement.scrollTop) {
+                        clearInterval(checkIfScrollToIsFinished_1);
+                        _this.goingToLetter = false;
                     }
-                }
-                catch (e_5_1) { e_5 = { error: e_5_1 }; }
-                finally {
-                    try {
-                        if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
-                    }
-                    finally { if (e_5) throw e_5.error; }
-                }
-                if (letter === liLetter) {
-                    liElement.children[0]['position'] = liElement.children[0].innerHTML.charCodeAt(0) - 65;
-                    this_1.currentLetterElement = liElement;
-                    var lettersElList = this_1.searchListEl.nativeElement.children;
-                    var letterElement = __spread(lettersElList).find(function (el) {
-                        var splitted = el.classList.value.split(' ');
-                        if (splitted.length > 0 && splitted[splitted.length - 1].includes('-')) {
-                            var letterClass = splitted[splitted.length - 1].split('-')[1].toUpperCase();
-                            return letterClass === letter;
-                        }
-                        return false;
-                    });
-                    if (letterElement) {
-                        var scrollHeight = this_1.searchListEl.nativeElement.scrollHeight - this_1.searchListEl.nativeElement.clientHeight;
-                        var scrollTop_1 = Math.min(scrollHeight, letterElement.offsetTop);
-                        this_1.searchListEl.nativeElement.scrollTo({
-                            left: 0,
-                            top: scrollTop_1,
-                            behavior: 'smooth'
-                        });
-                        this_1.goingToLetter = true;
-                        var checkIfScrollToIsFinished_1 = setInterval(function () {
-                            if (scrollTop_1 === _this.searchListEl.nativeElement.scrollTop) {
-                                clearInterval(checkIfScrollToIsFinished_1);
-                                _this.goingToLetter = false;
-                            }
-                        }, 60);
-                    }
-                    return "break";
-                }
-            };
-            var this_1 = this;
-            try {
-                for (var _b = __values(this.searchListEl.nativeElement.children), _c = _b.next(); !_c.done; _c = _b.next()) {
-                    var liElement = _c.value;
-                    var state_1 = _loop_2(liElement);
-                    if (state_1 === "break")
-                        break;
-                }
-            }
-            catch (e_4_1) { e_4 = { error: e_4_1 }; }
-            finally {
-                try {
-                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
-                }
-                finally { if (e_4) throw e_4.error; }
+                }, 60);
             }
         };
         AlphabetFilterComponent.prototype.onMouseMoveContent = function (event) {
-            var e_6, _a;
+            var e_4, _b;
             if (!this.form.get('search').value && this.indicatorClicked) {
                 try {
-                    for (var _b = __values(this.letterList.nativeElement.children), _c = _b.next(); !_c.done; _c = _b.next()) {
-                        var letter = _c.value;
+                    for (var _c = __values(this.letterList.nativeElement.children), _d = _c.next(); !_d.done; _d = _c.next()) {
+                        var letter = _d.value;
                         if (letter.classList.contains('contains')) {
                             var position = letter.getBoundingClientRect();
                             var bounds = { top: position.y, bottom: (position.y + letter.clientHeight) };
@@ -567,12 +524,12 @@
                         }
                     }
                 }
-                catch (e_6_1) { e_6 = { error: e_6_1 }; }
+                catch (e_4_1) { e_4 = { error: e_4_1 }; }
                 finally {
                     try {
-                        if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                        if (_d && !_d.done && (_b = _c.return)) _b.call(_c);
                     }
-                    finally { if (e_6) throw e_6.error; }
+                    finally { if (e_4) throw e_4.error; }
                 }
             }
         };
@@ -580,8 +537,8 @@
             if (event.button === 0)
                 this.indicatorClicked = true;
         };
-        AlphabetFilterComponent.prototype.onMouseUpIndicator = function (event) { this.indicatorClicked = false; };
-        AlphabetFilterComponent.prototype.onMouseUpContent = function (event) { this.indicatorClicked = false; };
+        AlphabetFilterComponent.prototype.onMouseUpIndicator = function () { this.indicatorClicked = false; };
+        AlphabetFilterComponent.prototype.onMouseUpContent = function () { this.indicatorClicked = false; };
         AlphabetFilterComponent.prototype.onScrollList = function (e) {
             if (!this.goingToLetter) {
                 if (!this.indicatorClicked)

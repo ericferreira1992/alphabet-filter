@@ -136,44 +136,29 @@ class AlphabetFilterComponent {
     }
     goLetter(letter) {
         this.currentAlpha = letter;
-        for (const liElement of this.searchListEl.nativeElement.children) {
-            let liLetter = '';
-            for (const className of liElement.classList) {
-                if (className.startsWith('let-')) {
-                    liLetter = className.replace('let-', '').toUpperCase();
-                    break;
+        const lettersElList = this.searchListEl.nativeElement.children;
+        const letterElement = [...lettersElList].find((el) => {
+            var _a;
+            const letterClass = ((_a = el.classList.value.split(' ').find(x => x.startsWith('let-'))) !== null && _a !== void 0 ? _a : '').replace('let-', '');
+            return letterClass.toUpperCase() === letter.toUpperCase();
+        });
+        if (letterElement) {
+            letterElement.children[0]['position'] = letterElement.children[0].innerHTML.charCodeAt(0) - 65;
+            this.currentLetterElement = letterElement;
+            const scrollHeight = this.searchListEl.nativeElement.scrollHeight - this.searchListEl.nativeElement.clientHeight;
+            const scrollTop = Math.min(scrollHeight, letterElement.offsetTop);
+            this.searchListEl.nativeElement.scrollTo({
+                left: 0,
+                top: scrollTop,
+                behavior: 'smooth'
+            });
+            this.goingToLetter = true;
+            const checkIfScrollToIsFinished = setInterval(() => {
+                if (scrollTop === this.searchListEl.nativeElement.scrollTop) {
+                    clearInterval(checkIfScrollToIsFinished);
+                    this.goingToLetter = false;
                 }
-            }
-            if (letter === liLetter) {
-                liElement.children[0]['position'] = liElement.children[0].innerHTML.charCodeAt(0) - 65;
-                this.currentLetterElement = liElement;
-                const lettersElList = this.searchListEl.nativeElement.children;
-                const letterElement = [...lettersElList].find((el) => {
-                    const splitted = el.classList.value.split(' ');
-                    if (splitted.length > 0 && splitted[splitted.length - 1].includes('-')) {
-                        const letterClass = splitted[splitted.length - 1].split('-')[1].toUpperCase();
-                        return letterClass === letter;
-                    }
-                    return false;
-                });
-                if (letterElement) {
-                    const scrollHeight = this.searchListEl.nativeElement.scrollHeight - this.searchListEl.nativeElement.clientHeight;
-                    const scrollTop = Math.min(scrollHeight, letterElement.offsetTop);
-                    this.searchListEl.nativeElement.scrollTo({
-                        left: 0,
-                        top: scrollTop,
-                        behavior: 'smooth'
-                    });
-                    this.goingToLetter = true;
-                    const checkIfScrollToIsFinished = setInterval(() => {
-                        if (scrollTop === this.searchListEl.nativeElement.scrollTop) {
-                            clearInterval(checkIfScrollToIsFinished);
-                            this.goingToLetter = false;
-                        }
-                    }, 60);
-                }
-                break;
-            }
+            }, 60);
         }
     }
     onMouseMoveContent(event) {
@@ -193,8 +178,8 @@ class AlphabetFilterComponent {
     }
     onMouseDownIndicator(event) { if (event.button === 0)
         this.indicatorClicked = true; }
-    onMouseUpIndicator(event) { this.indicatorClicked = false; }
-    onMouseUpContent(event) { this.indicatorClicked = false; }
+    onMouseUpIndicator() { this.indicatorClicked = false; }
+    onMouseUpContent() { this.indicatorClicked = false; }
     onScrollList(e) {
         if (!this.goingToLetter) {
             if (!this.indicatorClicked)
